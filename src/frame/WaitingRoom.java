@@ -196,7 +196,7 @@ public class WaitingRoom extends JFrame {
 
 		ta = new JTextArea();
 		ta.setBounds(45, 218, 600, 161);
-		ta.setBackground(new Color(0, 191, 255));
+		ta.setBackground(new Color(30, 144, 255));
 		contentPane.add(ta);
 		ta.enable(false);
 
@@ -208,7 +208,7 @@ public class WaitingRoom extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == 10) {
-					// Server�� ����
+					
 					String msg = chatTf.getText();
 					chatTf.setText("");
 					
@@ -252,7 +252,6 @@ public class WaitingRoom extends JFrame {
 			}
 		}
 
-		// UI������ ���
 		public void send(String msg) {
 			writer.println(msg);
 		}

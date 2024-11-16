@@ -48,7 +48,13 @@ public class LoginFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		
-		
+		tfUsername = new JTextField();
+		tfUsername.setText("");
+		tfUsername.setHorizontalAlignment(SwingConstants.CENTER);
+		tfUsername.setBounds(430, 480, 182, 54);
+		tfUsername.setFont(new Font("맑은 고딕", Font.PLAIN, 20)); // 텍스트 크기 설정
+		contentPane.add(tfUsername);
+
 		
 		btnStart=new JButton(new ImageIcon("images/start.png"));
 		btnStart.setBounds(430, 550, 182, 54);
