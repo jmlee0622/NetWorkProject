@@ -288,10 +288,10 @@ public class CookieMap extends JFrame {
 
 	// 폭발 이펙트 상단
 	   
-	      if((myX>bx-60 && myX<bx+55) &&(myY>by-35 &&myY<by+15)) {
+	      if((myX>bx-50 && myX<bx+45) &&(myY>by-35 &&myY<by+15)) {
 	         die = true;
 	      }
-	      else if((myX>bx-5 && myX<bx+45) &&(myY>by-75 &&myY<by+40)) {
+	      else if((myX>bx-5 && myX<bx+35) &&(myY>by-65 &&myY<by+35)) {
 	         die = true;
 	      }
 	
