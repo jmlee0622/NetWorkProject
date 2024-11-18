@@ -377,11 +377,10 @@ public class CookieMap extends JFrame {
 	      // ǳ����ġ
 
 
-	   	  
-	      if((myX>enemyBx-65 && myX<enemyBx+60) &&(myY>enemyBy-40 &&myY<enemyBy+20)) {
+	   if((myX>enemyBx-50 && myX<enemyBx+45) &&(myY>enemyBy-35 &&myY<enemyBy+15)) {
 	         die = true;
 	      }
-	      else if((myX>enemyBx-10 && myX<enemyBx+50) &&(myY>enemyBy-80 &&myY<enemyBy+45)) {
+	      else if((myX>enemyBx-5 && myX<enemyBx+35) &&(myY>enemyBy-65 &&myY<enemyBy+35)) {
 	         die = true;
 	      }
 	      
