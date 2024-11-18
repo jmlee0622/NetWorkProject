@@ -707,15 +707,15 @@ public class CookieMap extends JFrame {
 
                   if (secondline.equals("MOVE")) {
                      if (thirdline.equals("L")) {
-                        enemyX -= 10;
-                        woonieCurrent("images/woonie_left.png");
+                        enemyX += 10;
+                        woonieCurrent("images/woonie_right.png");
                         woonie.setLocation(enemyX, enemyY);
                         if (enemyX > 580) {
                            enemyX = 580;
                         }
                      } else if (thirdline.equals("R")) {
-                        enemyX += 10;
-                        woonieCurrent("images/woonie_right.png");
+                        enemyX -= 10;
+                        woonieCurrent("images/woonie_left.png");
                         woonie.setLocation(enemyX, enemyY);
                         if (enemyX < 16) {
                            enemyX = 16;
