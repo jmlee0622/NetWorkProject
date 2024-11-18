@@ -196,7 +196,7 @@ public class CookieMap extends JFrame {
             y *= 40;
             //40px 격자로 배치
             bu.setSize(40, 40);
-            bu.setLocation(x + 16, y + 5);
+            bu.setLocation(x + 16, y + 45);
             bu.setVisible(true);
             contentPane.add(bu);
             enemyBx = x + 16;
