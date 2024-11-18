@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 public class CookieMap extends JFrame {
@@ -52,76 +53,95 @@ public class CookieMap extends JFrame {
    JLabel woonie = new JLabel(new ImageIcon("images/woonie_front.png"));
    GameThread gt;
 
-   public void DropBomb() {
-      this.x = myX;
-      this.y = myY;
+   public void DropBomb() {//플레이어 폭탄
+	     this.x = myX;  // 플레이어의 x 좌표
+	    this.y = myY;  // 플레이어의 y 좌표
 
-      Runnable runnable = new Runnable() {
+	    Runnable runnable = new Runnable() {
+	        @Override
+	        public void run() {
+	            ImageIcon bubble = new ImageIcon("images/bomb.png");
+	            JLabel bu = new JLabel(bubble);
 
-         @Override
-         public void run() {
-            ImageIcon bubble = new ImageIcon("images/bomb.png");
-            JLabel bu = new JLabel(bubble);
-            x /= 40;
-            y /= 40;
-            x *= 40;
-            y *= 40;
+	            // x, y 좌표를 40으로 나누고 다시 40을 곱해 40단위로 위치 맞추기
+	            x /= 40;
+	            y /= 40;
+	            x *= 40;
+	            y *= 40;
 
-            bu.setSize(40, 40);
-            bu.setLocation(x + 16, y + 5);
-            bu.setVisible(true);
-            contentPane.add(bu);
+	            // 폭탄 위치 설정
+	            bu.setSize(40, 40);
+	            bu.setLocation(x + 16, y + 45);  // 폭탄 위치를 (x, y) 기준으로 설정
+	            contentPane.add(bu);
+	            bu.setVisible(true);
 
-            bx = x + 16;
-            by = y + 5;
-            try {
-               Thread.sleep(2000);
-//               bu.setVisible(false);
+	            // 폭탄의 실제 폭발 위치 (폭탄의 중심)
+	            bx = x + 16;
+	            by = y + 45;
 
-               ImageIcon bup = new ImageIcon("images/bup.png");
-               JLabel bupp = new JLabel(bup);
-               ImageIcon bright = new ImageIcon("images/bright.png");
-               JLabel br = new JLabel(bright);
-               ImageIcon bdown = new ImageIcon("images/bdown.png");
-               JLabel bd = new JLabel(bdown);
-               ImageIcon bleft = new ImageIcon("images/bleft.png");
-               JLabel bl = new JLabel(bleft);
+	            try {
+	                Thread.sleep(2000);  // 폭탄이 2초 후에 폭발하도록 대기
 
-               bupp.setSize(40, 40);
-               bupp.setLocation(bu.getLocation().x, bu.getLocation().y - 40);
-               bupp.setVisible(true);
-               contentPane.add(bupp);
-               br.setSize(40, 40);
-               br.setLocation(bu.getLocation().x + 40, bu.getLocation().y);
-               br.setVisible(true);
-               contentPane.add(br);
-               bd.setSize(40, 40);
-               bd.setLocation(bu.getLocation().x, bu.getLocation().y + 40);
-               bd.setVisible(true);
-               contentPane.add(bd);
-               bl.setSize(40, 40);
-               bl.setLocation(bu.getLocation().x - 40, bu.getLocation().y);
-               bl.setVisible(true);
-               contentPane.add(bl);
-               bu.setIcon(new ImageIcon("images/bcenter.png"));
-               Thread.sleep(1000);
-               bupp.setVisible(false);
-               br.setVisible(false);
-               bd.setVisible(false);
-               bl.setVisible(false);
-               bu.setVisible(false);
+	                // 폭발 이펙트 (상, 우, 하, 좌 방향)
+	                ImageIcon bup = new ImageIcon("images/bup.png");
+	                JLabel bupp = new JLabel(bup);
+	                ImageIcon bright = new ImageIcon("images/bright.png");
+	                JLabel br = new JLabel(bright);
+	                ImageIcon bdown = new ImageIcon("images/bdown.png");
+	                JLabel bd = new JLabel(bdown);
+	                ImageIcon bleft = new ImageIcon("images/bleft.png");
+	                JLabel bl = new JLabel(bleft);
 
-               checkLocation();
-               bx = bu.getLocation().x;
-               by = bu.getLocation().y;
-            } catch (InterruptedException e) {
-               e.printStackTrace();
-            }
+	                // 폭발 이펙트 라벨 크기 설정 및 위치 지정
+	                bupp.setSize(40, 40);
+	                bupp.setLocation(bu.getLocation().x, bu.getLocation().y - 40);  // 상
+	                br.setSize(40, 40);
+	                br.setLocation(bu.getLocation().x + 40, bu.getLocation().y);  // 우
+	                bd.setSize(40, 40);
+	                bd.setLocation(bu.getLocation().x, bu.getLocation().y + 40);  // 하
+	                bl.setSize(40, 40);
+	                bl.setLocation(bu.getLocation().x - 40, bu.getLocation().y);  // 좌
 
-         }
-      };
-      new Thread(runnable).start();
-   }
+	                // 각 이펙트 라벨 추가
+	                contentPane.add(bupp);
+	                contentPane.add(br);
+	                contentPane.add(bd);
+	                contentPane.add(bl);
+
+	                // 화면 새로 고침
+	                SwingUtilities.invokeLater(() -> {
+	                    contentPane.repaint();
+	                });
+
+	                // 폭발 이펙트 후 1초 대기
+	                Thread.sleep(1000);
+
+	                // 이펙트 제거
+	                bupp.setVisible(false);
+	                br.setVisible(false);
+	                bd.setVisible(false);
+	                bl.setVisible(false);
+	                bu.setVisible(false);
+
+	                // 폭탄 위치 체크 (폭탄이 떨어진 후 위치에 대해 체크)
+	                checkLocation();
+	                bx = bu.getLocation().x;
+	                by = bu.getLocation().y;
+
+	                // 화면 새로 고침
+	                SwingUtilities.invokeLater(() -> {
+	                    contentPane.repaint();
+	                });
+
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    };
+
+	    // 새로운 스레드로 폭탄을 떨어뜨림
+	    new Thread(runnable).start();
+	}
    
    public void Die() {
       if(die==true) {
@@ -148,7 +168,7 @@ public class CookieMap extends JFrame {
          }
       }
    };
-   public void DropBomb(int imgX, int imgY) {
+   public void DropBomb(int imgX, int imgY) {//적폭탄
       this.x = imgX;
       this.y = imgY;
 
@@ -162,7 +182,7 @@ public class CookieMap extends JFrame {
             y /= 40;
             x *= 40;
             y *= 40;
-
+            //40px 격자로 배치
             bu.setSize(40, 40);
             bu.setLocation(x + 16, y + 5);
             bu.setVisible(true);
@@ -220,7 +240,7 @@ public class CookieMap extends JFrame {
       new Thread(runnable).start();
    }
 
-   public void MyLocation() {
+   public void MyLocation() {//keyR .. keyD 는 특정 위치에 도달했을때 그방향으로 이동할수없도록 제어
 
       for (int i = 0; i < item.size(); i++) {
          if ((myX >= item.get(i).getX() - 40 && myX <= item.get(i).getX())
@@ -255,14 +275,17 @@ public class CookieMap extends JFrame {
       }
    };
 
-   public void checkLocation() {
+   public void checkLocation() {//아이템과 폭발 충동처리,케릭터 폭탄 위치 확인
 
-      if((myX>bx-65 && myX<bx+60) &&(myY>by-40 &&myY<by+20)) {
-         die = true;
-      }
-      else if((myX>bx-10 && myX<bx+50) &&(myY>by-80 &&myY<by+45)) {
-         die = true;
-      }
+	// 폭발 이펙트 상단
+	   
+	      if((myX>bx-65 && myX<bx+60) &&(myY>by-40 &&myY<by+20)) {
+	         die = true;
+	      }
+	      else if((myX>bx-10 && myX<bx+50) &&(myY>by-80 &&myY<by+45)) {
+	         die = true;
+	      }
+	
  
       for (int i = 0; i < item.size(); i++) {
 
@@ -344,10 +367,7 @@ public class CookieMap extends JFrame {
    public void enemyCheckLocation(int enemyBx,int enemyBy) {
 	      // ǳ����ġ
 
-//	      System.out.println("ǳ�� ��ġ bx : " + bx);
-//	      System.out.println("ǳ�� ��ġ by : " + by);
-//	      System.out.println("x : " + x + "y:" + y);
-//	      System.out.println();
+
 	   	  
 	      if((myX>enemyBx-65 && myX<enemyBx+60) &&(myY>enemyBy-40 &&myY<enemyBy+20)) {
 	         die = true;
@@ -355,11 +375,11 @@ public class CookieMap extends JFrame {
 	      else if((myX>enemyBx-10 && myX<enemyBx+50) &&(myY>enemyBy-80 &&myY<enemyBy+45)) {
 	         die = true;
 	      }
-	      // ǳ����ġ�� �������� ��������
+	      
 	      for (int i = 0; i < item.size(); i++) {
 
-	         // ������������ ã�ƾ� ��.
-	         // 496.525
+	        
+	        
 	         y -= 40;
 	         if ((enemyBx + 40 >= item.get(i).getX() && enemyBx + 40 <= item.get(i).getX() + 16)
 	               && (enemyBy >= item.get(i).getY() && enemyBy <= item.get(i).getY() + 5)) {
@@ -438,7 +458,7 @@ public class CookieMap extends JFrame {
       woonie.setIcon(new ImageIcon(imageLocation));
    }
 
-   private void firstLocation() {
+   private void firstLocation() {//플레이어,적의 초기 위치
       // ����
       contentPane.add(bazzi);
       bazzi.setSize(44, 56);
@@ -512,87 +532,88 @@ public class CookieMap extends JFrame {
 
    public CookieMap(String username) {
 
-      this.username = username;
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      setBounds(100, 100, 650, 650);
-      setLocationRelativeTo(null);
-      contentPane = new JLabel(new ImageIcon("Images/mapbg1.png"));
-      contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-      contentPane.setLayout(null);
-      setContentPane(contentPane);
+	   this.username = username;
+       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       setBounds(100, 100, 650, 650);
+       setLocationRelativeTo(null);
+       contentPane = new JLabel(new ImageIcon("Images/mapbg1.png"));
+       contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+       contentPane.setLayout(null);
+       setContentPane(contentPane);
 
-      firstLocation();
+       firstLocation();
 
-      gt = new GameThread();
-      new Thread(runnable).start();
-      new Thread(runable).start();
-      new Thread(gameover).start();
-      
-      gt.start();
+       gt = new GameThread();
+       new Thread(runnable).start();
+       new Thread(runable).start();
+       new Thread(gameover).start();
+       gt.start();
 
-      gt.send(username + ":" + "LOCATIONX:" + myX);
-      gt.send(username + ":" + "LOCATIONY:" + myY);
-      addKeyListener(new KeyAdapter() {
-         @Override
-         public void keyPressed(KeyEvent e) {
-            // System.out.println(e.getKeyCode());
-            switch (e.getKeyCode()) {
-            case KeyEvent.VK_RIGHT:
-               keyR = true;
-               break;
-            case KeyEvent.VK_LEFT:
-               keyL = true;
-               break;
-            case KeyEvent.VK_UP:
-               keyU = true;
-               break;
-            case KeyEvent.VK_DOWN:
-               keyD = true;
-               break;
-            case KeyEvent.VK_SPACE:
-            	new Thread(one).start();
-            }
+       gt.send(username + ":" + "LOCATIONX:" + myX);
+       gt.send(username + ":" + "LOCATIONY:" + myY);
 
-         }
-         
-         Runnable one = new Runnable() {
-             
-             @Override
-             public void run() {
-                if(check) {
-                   DropBomb();
-                         gt.send(username + ":DROP:o");
-                         check=false;
-                         try {
-                      Thread.sleep(3000);
-                      check=true;
-                   } catch (InterruptedException e) {
-                      // TODO Auto-generated catch block
-                      e.printStackTrace();
+       addKeyListener(new KeyAdapter() {
+           @Override
+           public void keyPressed(KeyEvent e) {
+               switch (e.getKeyCode()) {
+                   case KeyEvent.VK_RIGHT:
+                       keyR = true;
+                       break;
+                   case KeyEvent.VK_LEFT:
+                       keyL = true;
+                       break;
+                   case KeyEvent.VK_UP:
+                       keyU = true;
+                       break;
+                   case KeyEvent.VK_DOWN:
+                       keyD = true;
+                       break;
+                   case KeyEvent.VK_SPACE:
+                       if (check) {
+                           new Thread(one).start();  // 스페이스바를 눌렀을 때만 실행
+                       }
+                       break;
+               }
+           }
+
+           Runnable one = new Runnable() {
+               @Override
+               public void run() {
+                   synchronized (this) {
+                       if (check) {
+                           check = false;  // DropBomb을 실행 중일 때 check 값을 false로 설정
+                           DropBomb();
+                           gt.send(username + ":DROP:o");
+                           try {
+                               Thread.sleep(3000);  // 3초 동안 대기
+                           } catch (InterruptedException e) {
+                               e.printStackTrace();
+                           }
+                           check = true;  // 3초 후 check 값을 true로 설정하여 다음 bomb이 가능하게 함
+                       }
                    }
-                }
-                
-             }
-          };
+               }
+           };
 
-         @Override
-         public void keyReleased(KeyEvent e) {
-            switch (e.getKeyCode()) {
-            case KeyEvent.VK_RIGHT:
-               keyR = false;
-               break;
-            case KeyEvent.VK_LEFT:
-               keyL = false;
-               break;
-            case KeyEvent.VK_UP:
-               keyU = false;
-               break;
-            case KeyEvent.VK_DOWN:
-               keyD = false;
-               break;
-            }
-         }
-      });
+           @Override
+           public void keyReleased(KeyEvent e) {
+               switch (e.getKeyCode()) {
+                   case KeyEvent.VK_RIGHT:
+                       keyR = false;
+                       break;
+                   case KeyEvent.VK_LEFT:
+                       keyL = false;
+                       break;
+                   case KeyEvent.VK_UP:
+                       keyU = false;
+                       break;
+                   case KeyEvent.VK_DOWN:
+                       keyD = false;
+                       break;
+               }
+           }
+       });
+   
 
       
       Cookie cookie = new Cookie(15);
@@ -646,7 +667,7 @@ public class CookieMap extends JFrame {
       }
 
       @Override
-      public void run() {
+      public void run() {//우니의 위치 받아 옮기기
          try {
             String line;
             String firstline, secondline, thirdline;
