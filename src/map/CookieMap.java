@@ -59,7 +59,7 @@ public class CookieMap extends JFrame {
 
    public void DropBomb() {//플레이어 폭탄
 	     this.x = myX;  // 플레이어의 x 좌표
-	    this.y = myY;  // 플레이어의 y 좌표
+	     this.y = myY;  // 플레이어의 y 좌표
 
 	    Runnable runnable = new Runnable() {
 	        @Override
@@ -185,72 +185,99 @@ public class CookieMap extends JFrame {
       this.y = imgY;
 
       Runnable runnable = new Runnable() {
+	        @Override
+	        public void run() {
+	            ImageIcon bubble = new ImageIcon("images/bomb.png");
+	            JLabel bu = new JLabel(bubble);
 
-         @Override
-         public void run() {
-            ImageIcon bubble = new ImageIcon("images/bomb.png");
-            JLabel bu = new JLabel(bubble);
-            x /= 40;
-            y /= 40;
-            x *= 40;
-            y *= 40;
-            //40px 격자로 배치
-            bu.setSize(40, 40);
-            bu.setLocation(x + 16, y + 45);
-            bu.setVisible(true);
-            contentPane.add(bu);
-            enemyBx = x + 16;
-            enemyBy = y + 5;
-            try {
-               Thread.sleep(2000);
-               bu.setVisible(false);
+	            // x, y 좌표를 40으로 나누고 다시 40을 곱해 40단위로 위치 맞추기
+	            x /= 40;
+	            y /= 40;
+	            x *= 40;
+	            y *= 40;
 
-               ImageIcon bcenter = new ImageIcon("images/bcenter.png");
-               JLabel bc = new JLabel(bcenter);
-               ImageIcon bup = new ImageIcon("images/bup.png");
-               JLabel bupp = new JLabel(bup);
-               ImageIcon bright = new ImageIcon("images/bright.png");
-               JLabel br = new JLabel(bright);
-               ImageIcon bdown = new ImageIcon("images/bdown.png");
-               JLabel bd = new JLabel(bdown);
-               ImageIcon bleft = new ImageIcon("images/bleft.png");
-               JLabel bl = new JLabel(bleft);
+	            // 폭탄 위치 설정
+	            bu.setSize(40, 40);
+	            bu.setLocation(x + 16, y + 45);  // 폭탄 위치를 (x, y) 기준으로 설정
+	            contentPane.add(bu);
+	            bu.setVisible(true);
 
-               bc.setSize(40, 40);
-               bc.setLocation(enemyBx, enemyBy);
-               bc.setVisible(true);
-               contentPane.add(bc);
-               bupp.setSize(40, 40);
-               bupp.setLocation(enemyBx, enemyBy - 40);
-               bupp.setVisible(true);
-               contentPane.add(bupp);
-               br.setSize(40, 40);
-               br.setLocation(enemyBx + 40, enemyBy);
-               br.setVisible(true);
-               contentPane.add(br);
-               bd.setSize(40, 40);
-               bd.setLocation(enemyBx, enemyBy + 40);
-               bd.setVisible(true);
-               contentPane.add(bd);
-               bl.setSize(40, 40);
-               bl.setLocation(enemyBx - 40, enemyBy);
-               bl.setVisible(true);
-               contentPane.add(bl);
-               Thread.sleep(1000);
-               bc.setVisible(false);
-               bupp.setVisible(false);
-               br.setVisible(false);
-               bd.setVisible(false);
-               bl.setVisible(false);
-               
-               checkLocation();
-            } catch (InterruptedException e) {
-               e.printStackTrace();
-            }
-         }
-      };
-      new Thread(runnable).start();
-   }
+	            // 폭탄의 실제 폭발 위치 (폭탄의 중심)
+	            bx = x + 16;
+	            by = y + 45;
+
+	            try {
+	                Thread.sleep(2000);  // 폭탄이 2초 후에 폭발하도록 대기
+
+	                // 폭발 이펙트 (상, 우, 하, 좌 방향)
+	                ImageIcon bup = new ImageIcon("images/bup.png");         
+	                ImageIcon bright = new ImageIcon("images/bright.png");
+	                ImageIcon bdown = new ImageIcon("images/bdown.png");
+	                ImageIcon bleft = new ImageIcon("images/bleft.png");
+	                
+	                Image bupImg = bup.getImage().getScaledInstance(45, 60, Image.SCALE_SMOOTH);
+	                Image bdownImg = bdown.getImage().getScaledInstance(45, 60, Image.SCALE_SMOOTH);
+	                
+	                // 좌우 이미지를 가로로 확대
+	                Image brightImg = bright.getImage().getScaledInstance(60, 45, Image.SCALE_SMOOTH);
+	                Image bleftImg = bleft.getImage().getScaledInstance(60, 45, Image.SCALE_SMOOTH);
+	                
+	                JLabel bupp = new JLabel(new ImageIcon(bupImg));
+	                JLabel br = new JLabel(new ImageIcon(brightImg));
+	                JLabel bd = new JLabel(new ImageIcon(bdownImg));
+	                JLabel bl = new JLabel(new ImageIcon(bleftImg));
+
+	                // 폭발 이펙트 라벨 크기 설정 및 위치 지정
+	                bupp.setSize(45, 60);
+	                bupp.setLocation(bu.getLocation().x, bu.getLocation().y - 60);  // 상
+	                br.setSize(60, 45);
+	                br.setLocation(bu.getLocation().x + 40, bu.getLocation().y);  // 우
+	                bd.setSize(45, 60);
+	                bd.setLocation(bu.getLocation().x, bu.getLocation().y + 40);  // 하
+	                bl.setSize(60, 45);
+	                bl.setLocation(bu.getLocation().x - 60, bu.getLocation().y);  // 좌
+
+	                // 각 이펙트 라벨 추가
+	                contentPane.add(bupp);
+	                contentPane.add(br);
+	                contentPane.add(bd);
+	                contentPane.add(bl);
+
+	                // 화면 새로 고침
+	                SwingUtilities.invokeLater(() -> {
+	                    contentPane.repaint();
+	                });
+
+	                // 폭발 이펙트 후 1초 대기
+	                Thread.sleep(1000);
+
+	                // 이펙트 제거
+	                bupp.setVisible(false);
+	                br.setVisible(false);
+	                bd.setVisible(false);
+	                bl.setVisible(false);
+	                bu.setVisible(false);
+
+	                // 폭탄 위치 체크 (폭탄이 떨어진 후 위치에 대해 체크)
+	                checkLocation();
+	                bx = bu.getLocation().x;
+	                by = bu.getLocation().y;
+
+	                // 화면 새로 고침
+	                SwingUtilities.invokeLater(() -> {
+	                    contentPane.repaint();
+	                });
+
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    };
+
+	    // 새로운 스레드로 폭탄을 떨어뜨림
+	    new Thread(runnable).start();
+	}
+ 
 
    public void MyLocation() {//keyR .. keyD 는 특정 위치에 도달했을때 그방향으로 이동할수없도록 제어
 
