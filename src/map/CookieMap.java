@@ -34,6 +34,9 @@ public class CookieMap extends JFrame {
 
    int enemyX = 100;
    int enemyY = 30;
+   
+   int sendX=100;
+   int sendY=30;
    String move;
    String shape;
    int x;
@@ -481,6 +484,7 @@ public class CookieMap extends JFrame {
       if (keyU == true) {
          bazziCurrent("images/bazzi_back.png");
          myY -= 10;
+         sendY+=10;
          bazzi.setLocation(myX, myY);
          move = "U";
          gt.send(username + ":" + "MOVE:" + move);
@@ -491,6 +495,7 @@ public class CookieMap extends JFrame {
       if (keyD == true) {
          bazziCurrent("images/bazzi_front.png");
          myY += 10;
+         sendY-=10;
          bazzi.setLocation(myX, myY);
          move = "D";
          gt.send(username + ":" + "MOVE:" + move);
@@ -501,6 +506,7 @@ public class CookieMap extends JFrame {
       if (keyL == true) {
          bazziCurrent("images/bazzi_left.png");
          myX -= 10;
+         sendX+=10;
          bazzi.setLocation(myX, myY);
          move = "L";
          gt.send(username + ":" + "MOVE:" + move);
@@ -511,6 +517,7 @@ public class CookieMap extends JFrame {
       if (keyR == true) {
          bazziCurrent("images/bazzi_right.png");
          myX += 10;
+         sendX-=10;
          bazzi.setLocation(myX, myY);
          move = "R";
          gt.send(username + ":" + "MOVE:" + move);
@@ -557,8 +564,8 @@ public class CookieMap extends JFrame {
        new Thread(gameover).start();
        gt.start();
 
-       gt.send(username + ":" + "LOCATIONX:" + myX);
-       gt.send(username + ":" + "LOCATIONY:" + myY);
+       gt.send(username + ":" + "LOCATIONX:" + sendX);
+       gt.send(username + ":" + "LOCATIONY:" + sendY);
 
        addKeyListener(new KeyAdapter() {
            @Override
@@ -695,44 +702,44 @@ public class CookieMap extends JFrame {
                // System.out.println(thirdline);
                if (!(firstline.equals(username))) {
                   if (secondline.equals("LOCATIONX")) {
-                     enemyX = Integer.parseInt(thirdline);
+                     sendX = Integer.parseInt(thirdline);
                      // System.out.println(Integer.parseInt(thirdline));
 
                   }
                   if (secondline.equals("LOCATIONY")) {
-                     enemyY = Integer.parseInt(thirdline);
+                     sendY = Integer.parseInt(thirdline);
                      // System.out.println(Integer.parseInt(thirdline));
 
                   }
 
                   if (secondline.equals("MOVE")) {
                      if (thirdline.equals("L")) {
-                        enemyX += 10;
+                        enemyX=sendX;
                         woonieCurrent("images/woonie_right.png");
                         woonie.setLocation(enemyX, enemyY);
                         if (enemyX > 580) {
                            enemyX = 580;
                         }
                      } else if (thirdline.equals("R")) {
-                        enemyX -= 10;
+                        enemyX=sendX;
                         woonieCurrent("images/woonie_left.png");
                         woonie.setLocation(enemyX, enemyY);
                         if (enemyX < 16) {
                            enemyX = 16;
                         }
                      } else if (thirdline.equals("U")) {
-                        enemyY += 10;
+                        enemyY=sendY;
                         woonieCurrent("images/woonie_front.png");
                         woonie.setLocation(enemyX, enemyY);
                         if (enemyY < 0) {
                            enemyY = 0;
                         }
                      } else if (thirdline.equals("D")) {
-                        enemyY -= 10;
+                        enemyY=sendY;
                         woonieCurrent("images/woonie_back.png");
                         woonie.setLocation(enemyX, enemyY);
                         if (enemyY > 550) {
-                           enemyY = 550;
+                           enemyY = 550;//문제발생
                         }
                      }
 
