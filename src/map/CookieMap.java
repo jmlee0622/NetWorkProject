@@ -1,6 +1,7 @@
 package map;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
@@ -83,24 +84,32 @@ public class CookieMap extends JFrame {
 	                Thread.sleep(2000);  // 폭탄이 2초 후에 폭발하도록 대기
 
 	                // 폭발 이펙트 (상, 우, 하, 좌 방향)
-	                ImageIcon bup = new ImageIcon("images/bup.png");
-	                JLabel bupp = new JLabel(bup);
+	                ImageIcon bup = new ImageIcon("images/bup.png");         
 	                ImageIcon bright = new ImageIcon("images/bright.png");
-	                JLabel br = new JLabel(bright);
 	                ImageIcon bdown = new ImageIcon("images/bdown.png");
-	                JLabel bd = new JLabel(bdown);
 	                ImageIcon bleft = new ImageIcon("images/bleft.png");
-	                JLabel bl = new JLabel(bleft);
-
+	                
+	                Image bupImg = bup.getImage().getScaledInstance(45, 60, Image.SCALE_SMOOTH);
+	                Image bdownImg = bdown.getImage().getScaledInstance(45, 60, Image.SCALE_SMOOTH);
+	                
+	                // 좌우 이미지를 가로로 확대
+	                Image brightImg = bright.getImage().getScaledInstance(60, 45, Image.SCALE_SMOOTH);
+	                Image bleftImg = bleft.getImage().getScaledInstance(60, 45, Image.SCALE_SMOOTH);
+	                
+	                JLabel bupp = new JLabel(new ImageIcon(bupImg));
+	                JLabel br = new JLabel(new ImageIcon(brightImg));
+	                JLabel bd = new JLabel(new ImageIcon(bdownImg));
+	                JLabel bl = new JLabel(new ImageIcon(bleftImg));
+ 
 	                // 폭발 이펙트 라벨 크기 설정 및 위치 지정
-	                bupp.setSize(40, 40);
-	                bupp.setLocation(bu.getLocation().x, bu.getLocation().y - 40);  // 상
-	                br.setSize(40, 40);
+	                bupp.setSize(45, 60);
+	                bupp.setLocation(bu.getLocation().x, bu.getLocation().y - 60);  // 상
+	                br.setSize(60, 45);
 	                br.setLocation(bu.getLocation().x + 40, bu.getLocation().y);  // 우
-	                bd.setSize(40, 40);
+	                bd.setSize(45, 60);
 	                bd.setLocation(bu.getLocation().x, bu.getLocation().y + 40);  // 하
-	                bl.setSize(40, 40);
-	                bl.setLocation(bu.getLocation().x - 40, bu.getLocation().y);  // 좌
+	                bl.setSize(60, 45);
+	                bl.setLocation(bu.getLocation().x - 60, bu.getLocation().y);  // 좌
 
 	                // 각 이펙트 라벨 추가
 	                contentPane.add(bupp);
@@ -279,10 +288,10 @@ public class CookieMap extends JFrame {
 
 	// 폭발 이펙트 상단
 	   
-	      if((myX>bx-65 && myX<bx+60) &&(myY>by-40 &&myY<by+20)) {
+	      if((myX>bx-60 && myX<bx+55) &&(myY>by-35 &&myY<by+15)) {
 	         die = true;
 	      }
-	      else if((myX>bx-10 && myX<bx+50) &&(myY>by-80 &&myY<by+45)) {
+	      else if((myX>bx-5 && myX<bx+45) &&(myY>by-75 &&myY<by+40)) {
 	         die = true;
 	      }
 	
