@@ -702,40 +702,40 @@ public class CookieMap extends JFrame {
                // System.out.println(thirdline);
                if (!(firstline.equals(username))) {
                   if (secondline.equals("LOCATIONX")) {
-                     sendX = Integer.parseInt(thirdline);
+                     enemyX = Integer.parseInt(thirdline);
                      // System.out.println(Integer.parseInt(thirdline));
 
                   }
                   if (secondline.equals("LOCATIONY")) {
-                     sendY = Integer.parseInt(thirdline);
+                     enemyY = Integer.parseInt(thirdline);
                      // System.out.println(Integer.parseInt(thirdline));
 
                   }
 
                   if (secondline.equals("MOVE")) {
                      if (thirdline.equals("L")) {
-                        enemyX=sendX;
+                        enemyX += 10;
                         woonieCurrent("images/woonie_right.png");
                         woonie.setLocation(enemyX, enemyY);
                         if (enemyX > 580) {
                            enemyX = 580;
                         }
                      } else if (thirdline.equals("R")) {
-                        enemyX=sendX;
+                        enemyX -= 10;
                         woonieCurrent("images/woonie_left.png");
                         woonie.setLocation(enemyX, enemyY);
                         if (enemyX < 16) {
                            enemyX = 16;
                         }
                      } else if (thirdline.equals("U")) {
-                        enemyY=sendY;
+                        enemyY += 10;
                         woonieCurrent("images/woonie_front.png");
                         woonie.setLocation(enemyX, enemyY);
                         if (enemyY < 0) {
                            enemyY = 0;
                         }
                      } else if (thirdline.equals("D")) {
-                        enemyY=sendY;
+                        enemyY -= 10;
                         woonieCurrent("images/woonie_back.png");
                         woonie.setLocation(enemyX, enemyY);
                         if (enemyY > 550) {
