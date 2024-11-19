@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import map.CookieMap;
+import map.PirateMap;
 
 public class WaitingRoom extends JFrame {
 
@@ -152,7 +153,7 @@ public class WaitingRoom extends JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				new PirateMap(username);
 			}
 		});
 
