@@ -228,7 +228,7 @@ public class WaitingRoom extends JFrame {
 		public ChatThread() {
 			// ���� ����
 			try {
-				socket = new Socket("172.30.1.59", 5000);//채팅서버 접속
+				socket = new Socket("localhost", 5000);//채팅서버 접속
 				writer = new PrintWriter(socket.getOutputStream(), true);
 				reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 

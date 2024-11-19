@@ -698,7 +698,7 @@ public class CookieMap extends JFrame {
       public GameThread() {
          
          try {
-            socket = new Socket("172.30.1.59", 6000);//서버 접속
+            socket = new Socket("localhost", 6000);//서버 접속
             writer = new PrintWriter(socket.getOutputStream(), true);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
