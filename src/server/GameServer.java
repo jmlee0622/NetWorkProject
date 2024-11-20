@@ -55,6 +55,8 @@ public class GameServer {
             	//System.out.println(line);
                for (SocketThread st : vc) {
                   st.writer.write(line);
+                  st.writer.newLine();
+                  st.writer.flush(); 
                }
             }
          } catch (IOException e) {
