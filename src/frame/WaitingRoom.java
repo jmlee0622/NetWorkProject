@@ -208,7 +208,6 @@ public class WaitingRoom extends JFrame {
 	                        addUsernameLabel(); // "username님 환영합니다"에서 username만 추출
 	                    }
 					 if (line.contains("님 입장했습니다.")) {
-						 if(line.contains(username))
 	                        addUsernameLabel(); // "username님 환영합니다"에서 username만 추출
 	                    }
 					System.out.println(line);

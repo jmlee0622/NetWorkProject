@@ -13,6 +13,7 @@ public class SocketServer {
 
     private ServerSocket serverSocket;
     private Vector<SocketThread> vc;
+    private boolean firstClientEntered = false; 
     private int count =0; // 첫 번째 클라이언트를 위한 플래그
     public SocketServer() {
         try {
@@ -21,8 +22,6 @@ public class SocketServer {
             while (true) {
                 Socket socket = serverSocket.accept();
                 SocketThread st = new SocketThread(socket);
-                count +=1;
-                System.out.println(count);
                 st.start();
                 vc.add(st);
             }
@@ -50,27 +49,29 @@ public class SocketServer {
 
                 String line;
                 username = reader.readLine(); // 사용자 이름 받기
-                if (count==1) {
+                
+                if (!firstClientEntered) {
                     for (SocketThread st : vc) {
-                       
-                            st.writer.write(username+ "님 입장했습니다.");
-                            st.writer.newLine();
-                            st.writer.flush();
-                        
-                    }
-                       
-                }
-               
-                    else {
-                 
-                        for (SocketThread st : vc) {
-                         
-                                st.writer.write(username + "님 입장했습니다.");
-                                st.writer.newLine();
-                                st.writer.flush();
-                            
+                        if (st.socket == this.socket) {      
+                            st.writer.write(username + "님 환영합니다.");
+                        } else {
+                            // 다른 클라이언트에게 "입장했습니다" 메시지
+                            st.writer.write(username + "님 입장했습니다.");
                         }
+                        st.writer.newLine();
+                        st.writer.flush();
                     }
+                    firstClientEntered = true; // 첫 번째 클라이언트가 입장했음을 표시
+                } else {
+                    // 두 번째 이후의 클라이언트들 처리
+                    for (SocketThread st : vc) {
+                                               
+                        st.writer.write(username + "님 입장했습니다.");
+                        
+                        st.writer.newLine();
+                        st.writer.flush();
+                    }
+                }
 
                 // 채팅 메시지 처리
                 while ((line = reader.readLine()) != null) {
