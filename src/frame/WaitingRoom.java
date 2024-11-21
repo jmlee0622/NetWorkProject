@@ -5,6 +5,8 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -17,6 +19,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -34,6 +37,7 @@ public class WaitingRoom extends JFrame {
 	private String username;
 	private JLabel Woonie;
 	private JLabel Bazzi;
+	private JButton Ready;
 	public WaitingRoom() {
 		// TODO Auto-generated constructor stub
 	}
@@ -156,7 +160,8 @@ public class WaitingRoom extends JFrame {
 	    Bazzi.setBounds(38, 111, 60, 72);
 	    contentPane.add(Bazzi);
 	    
-	   
+	 
+	    
 	
 		ChatThread ct = new ChatThread();
 		ct.send(username);
@@ -174,8 +179,20 @@ public class WaitingRoom extends JFrame {
 				}
 			}
 		});
+
+	    Ready=new JButton();
+	    Ready.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ct.send("Ready");
+			}
+		});
 		  setVisible(true);
+		  
 	}
+	
     
 	class ChatThread extends Thread {
 
