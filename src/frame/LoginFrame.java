@@ -15,7 +15,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import dao.MemberDao;
+import map.CookieMap;
+
+
 
 public class LoginFrame extends JFrame {
 	
@@ -73,7 +75,7 @@ public class LoginFrame extends JFrame {
 				
 				String username = tfUsername.getText();
 			
-					new WaitingRoom(username);
+					new CookieMap(username);
 
 			}
 		});

@@ -10,6 +10,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
+import server.SocketServer.SocketThread;
+
 public class GameServer {
 
    private ServerSocket serverSocket;
@@ -61,6 +63,20 @@ public class GameServer {
             }
          } catch (IOException e) {
             e.printStackTrace();
+         }
+         finally {
+             try {
+                 socket.close();
+                 vc.remove(this);
+                 // 클라이언트가 나갔을 때, 나간 클라이언트에게 메시지 전송
+                 for (SocketThread st : vc) {
+                     st.writer.write(username + "님이 나갔습니다.");
+                     st.writer.newLine();
+                     st.writer.flush();
+                 }
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
          }
       }
 
