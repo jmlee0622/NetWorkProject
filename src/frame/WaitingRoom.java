@@ -38,6 +38,8 @@ public class WaitingRoom extends JFrame {
 	private JLabel Woonie;
 	private JLabel Bazzi;
 	private JButton Ready;
+	private JButton Map;
+	
 	public WaitingRoom() {
 		// TODO Auto-generated constructor stub
 	}
@@ -138,10 +140,31 @@ public class WaitingRoom extends JFrame {
 //				new PirateMap(username);
 //			}
 //		});
-//
-//		
-
-	
+//        
+	    
+	    
+		ImageIcon icon = new ImageIcon("images/mapButton.jpg");
+		Image img1 = icon.getImage(); // ImageIcon에서 Image 객체 얻기
+	    Image scaledImg = img1.getScaledInstance(120, 50, Image.SCALE_SMOOTH); // 크기 조정
+	    
+        Map=new JButton(icon);
+        Map.setBounds(643, 442, 120,50);
+        contentPane.add(Map);
+	    
+        JPanel Mappanel = new JPanel();
+        Mappanel.setBackground(Color.blue); // 패널 배경색 설정
+        Mappanel.setBounds(478, 15, 294, 250); // 패널 위치와 크기 설정
+        
+        Map.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 패널을 프레임에 추가하고 리프레시
+                getContentPane().add(Mappanel);
+                revalidate(); // 레이아웃을 다시 계산하여 변경사항을 반영
+                repaint(); // 화면을 다시 그려서 패널이 나타나게 함
+            }
+        });
+        
 		chatTf = new JTextField();
 		chatTf.setBackground(new Color(173, 216, 230));
 	    chatTf.setBounds(181, 541, 223, 22);

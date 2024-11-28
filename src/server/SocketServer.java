@@ -17,6 +17,7 @@ public class SocketServer {
     private int count =0; // 첫 번째 클라이언트를 위한 플래그
     public SocketServer() {
         try {
+        	System.out.println("채팅서버 실행");
             serverSocket = new ServerSocket(5000);
             vc = new Vector<>();
             while (true) {
