@@ -262,7 +262,7 @@ public class CookieMap extends JFrame {
       bu.setVisible(true);
 
       // 폭탄의 실제 폭발 위치 (폭탄의 중심)
-      enemyX = x + 16;
+      enemyBx = x + 16;
       enemyBy = y + 45;
 
       Runnable runnable = new Runnable() {
@@ -330,8 +330,8 @@ public class CookieMap extends JFrame {
 
 	                // 폭탄 위치 체크 (폭탄이 떨어진 후 위치에 대해 체크)
 	                checkLocation();
-	                bx = bu.getLocation().x;
-	                by = bu.getLocation().y;
+	                enemyBx = bu.getLocation().x;
+	                enemyBy = bu.getLocation().y;
 
 	                // 화면 새로 고침
 	                SwingUtilities.invokeLater(() -> {
@@ -349,7 +349,7 @@ public class CookieMap extends JFrame {
 	}
    public void MoreBomb(int imgX, int imgY) {
 	   
-	   this.x = imgX;  // 플레이어의 x 좌표
+	    this.x = imgX;  // 플레이어의 x 좌표
 	    this.y = imgY;  // 플레이어의 y 좌표
 	   
 	     ImageIcon bubble = new ImageIcon("images/bomb.png");
@@ -473,8 +473,8 @@ public class CookieMap extends JFrame {
 	                
 	                // 폭탄 위치 체크 (폭탄이 떨어진 후 위치에 대해 체크)
 	                checkLocation();
-	                bx = bu.getLocation().x;
-	                by = bu.getLocation().y;
+	                enemyBx = bu.getLocation().x;
+	                enemyBy = bu.getLocation().y;
 
 	                // 화면 새로 고침
 	                SwingUtilities.invokeLater(() -> {
@@ -495,7 +495,7 @@ public class CookieMap extends JFrame {
    }
  public void MoreBomb() {
 	   
-	   this.x = myX;  // 플레이어의 x 좌표
+	    this.x = myX;  // 플레이어의 x 좌표
 	    this.y = myY;  // 플레이어의 y 좌표
 	   
 	     ImageIcon bubble = new ImageIcon("images/bomb.png");
@@ -704,9 +704,6 @@ public class CookieMap extends JFrame {
             item.get(i).setIcon(null);
 
             item3 = item2[0];
-            
-           
-    
             if(item3==null) {
 	        list.add("a");
             }else {
@@ -765,7 +762,7 @@ public class CookieMap extends JFrame {
                && (by - 40 >= item.get(i).getY() && by - 40 <= item.get(i).getY() + 5)) {
             item.get(i).setIcon(null);
 
-            item3 = item2[random.nextInt(6)];
+            item3 = item2[3];
             
             
             if(item3==null) {
@@ -793,7 +790,7 @@ public class CookieMap extends JFrame {
 		               && (by >= item.get(i).getY() && by <= item.get(i).getY() + 5)) {
 		            item.get(i).setIcon(null);
 
-		            item3 = item2[3];
+		            item3 = item2[0];
 		            if(item3==null) {
 		    	        list.add("a");
 		                }else {
@@ -812,9 +809,9 @@ public class CookieMap extends JFrame {
 		               && (by + 80 >= item.get(i).getY() && by-80 <= item.get(i).getY() + 5)) {
 		            item.get(i).setIcon(null);
 
-		            item3 = item2[random.nextInt(6)];
+		   
 		            
-		            item3 = item2[random.nextInt(6)];
+		            item3 = item2[1];
 		            if(item3==null) {
 		    	        list.add("a");
 		                }else {
@@ -877,6 +874,7 @@ public class CookieMap extends JFrame {
 			         die = true;
 			      }
 		   }
+	   
 	   if(!bombReady) {
 	      for (int i = 0; i < item.size(); i++) {
 
@@ -886,19 +884,19 @@ public class CookieMap extends JFrame {
 	         if ((enemyBx + 40 >= item.get(i).getX() && enemyBx + 40 <= item.get(i).getX() + 16)
 	               && (enemyBy >= item.get(i).getY() && enemyBy <= item.get(i).getY() + 5)) {
 	            item.get(i).setIcon(null);
-
 	            item3 = item2[2]; 
+	            if(item3==null) {
+	    	        list.add("a");
+	                }else {
+	                list.add(item3.toString());
+	            }
 	            itemLabel = new JLabel(item3);
 	            itemLabel.setLocation(item.get(i).getX(), item.get(i).getY());
 	            itemLabel.setSize(40, 40);
 	            contentPane.add(itemLabel);
 	            itemlist.add(itemLabel);
 	            item.remove(i);
-	            if(item3==null) {
-	    	        list.add("a");
-	                }else {
-	                list.add(item3.toString());
-	            }
+	           
 
 	         } else if ((enemyBx >= item.get(i).getX() && enemyBx <= item.get(i).getX() + 16)
 	               && (enemyBy + 40 >= item.get(i).getY() && enemyBy + 40 <= item.get(i).getY() + 5)) {
@@ -906,54 +904,54 @@ public class CookieMap extends JFrame {
 
 	            item3 = item2[3];   
 	            itemLabel = new JLabel(item3);
-	            itemLabel.setLocation(item.get(i).getX(), item.get(i).getY());
-	            itemLabel.setSize(40, 40);
-	            contentPane.add(itemLabel);
-	            itemlist.add(itemLabel);
-	            item.remove(i);
 	            if(item3==null) {
 	    	        list.add("a");
 	                }else {
 	                list.add(item3.toString());
 	            }
+	            itemLabel.setLocation(item.get(i).getX(), item.get(i).getY());
+	            itemLabel.setSize(40, 40);
+	            contentPane.add(itemLabel);
+	            itemlist.add(itemLabel);
+	            item.remove(i);
+	           
 
 	         } else if ((enemyBx - 40 >= item.get(i).getX() && enemyBx - 40 <= item.get(i).getX() + 16)
 	               && (enemyBy >= item.get(i).getY() && enemyBy <= item.get(i).getY() + 5)) {
 
 	            item.get(i).setIcon(null);
 	            item3 = item2[0];    
+	            if(item3==null) {
+	    	        list.add("a");
+	                }else {
+	                list.add(item3.toString());
+	            }
 	            itemLabel = new JLabel(item3);
 	            itemLabel.setLocation(item.get(i).getX(), item.get(i).getY());
 	            itemLabel.setSize(40, 40);
 	            contentPane.add(itemLabel);
 	            itemlist.add(itemLabel);
 	            item.remove(i);
-	            if(item3==null) {
-	    	        list.add("a");
-	                }else {
-	                list.add(item3.toString());
-	            }
+	           
 	    	           
 
 	         } else if ((enemyBx >= item.get(i).getX() && enemyBx <= item.get(i).getX() + 16)
 	               && (enemyBy - 40 >= item.get(i).getY() && enemyBy - 40 <= item.get(i).getY() + 5)) {
 	            item.get(i).setIcon(null);
-
 	            item3 = item2[1];    
+	            if(item3==null) {
+	    	        list.add("a");
+	                }else {
+	                list.add(item3.toString());
+	            }
 	            itemLabel = new JLabel(item3);
 	            itemLabel.setLocation(item.get(i).getX(), item.get(i).getY());
 	            itemLabel.setSize(40, 40);
 	            contentPane.add(itemLabel);
 	            itemlist.add(itemLabel);
 	            item.remove(i);
-	            if(item3==null) {
-	    	        list.add("a");
-	                }else {
-	                list.add(item3.toString());
-	            }
-
+	           
 	         }
-
 	         // item.get(i).setIcon(null); //23
 	      }
 	   }else {
@@ -966,7 +964,7 @@ public class CookieMap extends JFrame {
 		               && (by >= item.get(i).getY() && by <= item.get(i).getY() + 5)) {
 		            item.get(i).setIcon(null);
 
-		            item3 = item2[random.nextInt(6)];  
+		            item3 = item2[0];  
 		            itemLabel = new JLabel(item3);
 		            itemLabel.setLocation(item.get(i).getX(), item.get(i).getY());
 		            itemLabel.setSize(40, 40);
@@ -984,7 +982,7 @@ public class CookieMap extends JFrame {
 		               && (by + 80 >= item.get(i).getY() && by-80 <= item.get(i).getY() + 5)) {
 		            item.get(i).setIcon(null);
 
-		            item3 = item2[random.nextInt(6)];    
+		            item3 = item2[1];    
 		            itemLabel = new JLabel(item3);
 		            itemLabel.setLocation(item.get(i).getX(), item.get(i).getY());
 		            itemLabel.setSize(40, 40);
@@ -1362,37 +1360,37 @@ public class CookieMap extends JFrame {
                   }
 
                   if (secondline.equals("MOVE")) {
-                     if (thirdline.equals("L")) {
-                        myX -= 10;
-                        bazziCurrent("images/bazzi_left.png");
-                        bazzi.setLocation(myX, myY);
-                        if (myX > 580) {
-                           myX = 580;
-                        }
-                     } else if (thirdline.equals("R")) {
-                        myX += 10;
-                        bazziCurrent("images/bazzi_right.png");
-                        bazzi.setLocation(myX, myY);
-                        if (myX < 16) {
-                           myX = 16;
-                        }
-                     } else if (thirdline.equals("U")) {
-                        myY -= 10;
-                        bazziCurrent("images/bazzi_down.png");
-                        bazzi.setLocation(myX, myY);
-                        if (myY < 0) {
-                           myY = 0;
-                        }
-                     } else if (thirdline.equals("D")) {
-                        myY += 10;
-                        bazziCurrent("images/bazzi_front.png");
-                        bazzi.setLocation(myX, myY);
-                        if (myY > 550) {
-                           myY = 550;//문제발생
-                        }
-                     }
+                      if (thirdline.equals("L")) {
+                         enemyX += 10;
+                         woonieCurrent("images/woonie_right.png");
+                         woonie.setLocation(enemyX, enemyY);
+                         if (enemyX > 580) {
+                            enemyX = 580;
+                         }
+                      } else if (thirdline.equals("R")) {
+                         enemyX -= 10;
+                         woonieCurrent("images/woonie_left.png");
+                         woonie.setLocation(enemyX, enemyY);
+                         if (enemyX < 16) {
+                            enemyX = 16;
+                         }
+                      } else if (thirdline.equals("U")) {
+                         enemyY += 10;
+                         woonieCurrent("images/woonie_front.png");
+                         woonie.setLocation(enemyX, enemyY);
+                         if (enemyY < 0) {
+                            enemyY = 0;
+                         }
+                      } else if (thirdline.equals("D")) {
+                         enemyY -= 10;
+                         woonieCurrent("images/woonie_back.png");
+                         woonie.setLocation(enemyX, enemyY);
+                         if (enemyY > 550) {
+                            enemyY = 550;//문제발생
+                         }
+                      }
 
-                  }
+                   }
                   if (secondline.equals("MORE")) {
                 	  bombReadys = true;  
                   }

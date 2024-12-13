@@ -28,6 +28,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import map.CookieMap;
+import map.PirateMap;
+
 public class WaitingRoom extends JFrame {
 
 	private JLabel contentPane;
@@ -39,7 +42,7 @@ public class WaitingRoom extends JFrame {
 	private JLabel Bazzi;
 	private JButton Ready;
 	private JButton Map;
-	
+	private int change;
 	public WaitingRoom() {
 		// TODO Auto-generated constructor stub
 	}
@@ -47,7 +50,7 @@ public class WaitingRoom extends JFrame {
 	 * Create the frame.
 	 */
 	public WaitingRoom(String username) {
-		 this.username = username;
+		    this.username = username;
 		    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		    setBounds(100, 100, 800, 655);
 		    setLocationRelativeTo(null);
@@ -151,15 +154,45 @@ public class WaitingRoom extends JFrame {
         Map.setBounds(643, 442, 120,50);
         contentPane.add(Map);
 	    
-        JPanel Mappanel = new JPanel();
-        Mappanel.setBackground(Color.blue); // 패널 배경색 설정
-        Mappanel.setBounds(478, 15, 294, 250); // 패널 위치와 크기 설정
+   	   JLabel imageLabel = new JLabel();
+       imageLabel.setBounds(483, 358, 150, 140);
+        contentPane.add(imageLabel);
         
         Map.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 패널을 프레임에 추가하고 리프레시
-                getContentPane().add(Mappanel);
+            	JButton button1 = new JButton("Button 1");
+                JButton button2 = new JButton("Button 2");
+                button1.setBounds(478,16, 150, 250);
+                button2.setBounds(630,16, 150, 250);
+                // 버튼에 이벤트 리스너 추가
+                button1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                    	 change=0;
+                    	 ImageIcon image1 = new ImageIcon("images/CookieRandom.jpg");
+                    	 imageLabel.setIcon(image1);               
+                         contentPane.revalidate();
+                         contentPane.repaint();
+                    }
+                });
+                
+                button2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                    	 change=1;
+                    	 ImageIcon image1 = new ImageIcon("images/PirateRandom.jpg");
+                    	 imageLabel.setIcon(image1);
+                         contentPane.revalidate();
+                         contentPane.repaint();
+                    }
+                });
+                
+                // 버튼 패널에 추가
+                contentPane.add(button1);
+                contentPane.add(button2);
+                
                 revalidate(); // 레이아웃을 다시 계산하여 변경사항을 반영
                 repaint(); // 화면을 다시 그려서 패널이 나타나게 함
             }
@@ -183,7 +216,30 @@ public class WaitingRoom extends JFrame {
 	    Bazzi.setBounds(38, 111, 60, 72);
 	    contentPane.add(Bazzi);
 	    
-	 
+	    ImageIcon starticon = new ImageIcon("images/GameStart.jpg");
+		Image startimg1 = icon.getImage(); // ImageIcon에서 Image 객체 얻기
+	    Image startscaledImg = img1.getScaledInstance(204, 70, Image.SCALE_SMOOTH); // 크기 조정
+	    
+	    JButton GameStart=new JButton(starticon);
+	    GameStart.setBounds(500,509,204,70);
+	    contentPane.add(GameStart);
+	  
+	     GameStart.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(change==0)
+				{
+				   new CookieMap(username);
+				}
+				else {
+				   new PirateMap(username);
+				}
+			}
+			
+		});
+	
 	    
 	
 		ChatThread ct = new ChatThread();

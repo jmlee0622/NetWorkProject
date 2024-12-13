@@ -75,7 +75,7 @@ public class LoginFrame extends JFrame {
 				
 				String username = tfUsername.getText();
 			
-					new CookieMap(username);
+					new WaitingRoom(username);
 
 			}
 		});
