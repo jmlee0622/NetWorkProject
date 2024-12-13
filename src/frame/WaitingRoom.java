@@ -162,8 +162,8 @@ public class WaitingRoom extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 패널을 프레임에 추가하고 리프레시
-            	JButton button1 = new JButton("Button 1");
-                JButton button2 = new JButton("Button 2");
+            	JButton button1 = new JButton("쿠키맵");
+                JButton button2 = new JButton("해적맵");
                 button1.setBounds(478,16, 150, 250);
                 button2.setBounds(630,16, 150, 250);
                 // 버튼에 이벤트 리스너 추가
